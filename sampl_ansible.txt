@@ -1,0 +1,71 @@
+ansible all -i hosts -k -u root -m authorized_key -a "user=root state=present key=\"{{ lookup('file','/home/ansible/.ssh/id_rsa.pub') }}\""
+
+
+ansible all -i hosts -u root -m authorized_key -a "user=root state=absent key=\"{{ lookup('file','/home/ansible/.ssh/id_rsa.pub') }}\""
+192.168.101.2 | success >> {
+    "changed": true,
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAliR905hxLnsOCRlOGnmN0H9dGH4NPV88ySC6GMv0KNnU7FfCXYE51Bkk97p2IWFsPhYO9qJDyAFxRm/lia1IZRDpCFcKKKMh5eXmEJC5XSrHWFdmGZRlFcS3VQ3rpCIyU3qFM6xMazh3JHKKEtE1J6nvw/hW3slY9G/6VoJ8CzpfeQMLDOdVXUIcZXqtCPuIEDBQ7yjfMzTGz+hEmz7ImbLaUyB4MDGrDnl33L8mkBEVYu8RrwgBcagDQSiQKnIca/EL45eX/74NG1e/6vxZkHZJz/W0ak4KD+o9vF4ikz0bdrGPMZ5gRYXWoSSHrVA+Rqk8A93qBXNKUUkzGoQYTQ== ansible@ansiblevm.local",
+    "key_options": null,
+    "keyfile": "/root/.ssh/authorized_keys",
+    "manage_dir": true,
+    "path": null,
+    "state": "absent",
+    "unique": false,
+    "user": "root"
+}
+
+
+ playbook created to apply PSU3 to an Oracle 11.2.0.4 home. It's still quite simple, it just applies PSU3 to the Oracle home. But totally automatic. The point I am trying to make is that this is already nice to have automated a lot of work for a single home, but it saves a lot of hours (read: a lot of money), and saves you from human error.
+
+---
+- hosts: all
+  vars:
+    u01_size_gb: 1
+    tmp_size_gb: 1
+    oracle_base: /u01/app/oracle
+    oracle_home: /u01/app/oracle/product/11.2.0.4/dbhome_1
+    patch_dir: /u01/install
+  remote_user: oracle
+  tasks:
+ 
+  - name: check u01 free disk space
+    action: shell df -P /u01 | awk 'END { print $4 }'
+    register: u01size
+    failed_when: u01size.stdout|int < {{ u01_size_gb }} * 1024 * 1024
+ 
+  - name: check tmp free disk space
+    action: shell df -P /tmp | awk 'END { print $4 }'
+    register: tmpsize
+    failed_when: tmpsize.stdout|int < {{ tmp_size_gb }} * 1024 * 1024
+ 
+  - name: create directory for installation files
+    action: file dest={{ patch_dir }} state=directory owner=oracle group=oinstall
+ 
+  - name: copy opatch and psu
+    copy: src=files/{{ item }} dest={{ patch_dir }} owner=oracle group=oinstall mode=0644
+    with_items:
+     - p6880880_112000_Linux-x86-64.zip
+     - p18522509_112040_Linux-x86-64.zip
+     - ocm.rsp
+ 
+  - name: install opatch in database home
+    action: shell unzip -oq {{ patch_dir }}/p6880880_112000_Linux-x86-64.zip -d {{ oracle_home }}
+ 
+  - name: unzip psu patch
+    action: shell unzip -oq {{ patch_dir }}/p18522509_112040_Linux-x86-64.zip -d {{ patch_dir }}
+ 
+  - name: patch conflict detection
+    action: shell export ORACLE_HOME={{ oracle_home }}; cd {{ patch_dir }}/18522509; $ORACLE_HOME/OPatch/opatch prereq CheckConflictAgainstOHWithDetail -ph ./
+    register: conflict_detection
+    failed_when: "'Prereq \"checkConflictAgainstOHWithDetail\" passed.' not in conflict_detection.stdout"
+ 
+  - name: apply psu
+    action: shell export ORACLE_HOME={{ oracle_home}}; cd {{ patch_dir }}/18522509; $ORACLE_HOME/OPatch/opatch apply -silent -ocmrf {{ patch_dir }}/ocm.rsp
+    register: apply_psu
+    failed_when: "'Composite patch 18522509 successfully applied.' not in apply_psu.stdout"
+ 
+  - name: clean up install directory
+    file: path={{ patch_dir }} state=absent
+    
+    
+    
