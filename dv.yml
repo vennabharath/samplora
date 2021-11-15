@@ -1,0 +1,47 @@
+---
+
+- hosts: 127.0.0.1
+  connection: local
+  become: true
+  vars_files:
+   -vars/default.yml
+  vars:
+    USERNAME:
+    PASSWORD:
+    DB:
+   
+  tasks:
+  
+   - name: access the database
+     become: yes 
+     become_user: sampluser
+     shell:
+        /usr/bin/sqlplus64 -L $USERNAME/$PASSWORD@$DB
+        #IF DB CONNECTION FAILS EXIT FROM PROGRAM
+     register: status
+     failed_when: status.stdout = "no connection"
+     
+     
+   - name: version find
+     shell: SELECT * FROM v$version WHERE banner LIKE 'Oracle%';   # $ORACLE_HOME/OPatch/opatch lsinventory
+     register: version_details
+     
+   - debug:
+     var: version_details.output  # version_details.stdout_lines
+        
+     # sqlplus -S / as sysdba @"{{ temp_dir }}/apexver.sql"
+     # script: samplscript {{ item }}
+     # with_items: 
+               -
+               -
+               -
+               
+     # register: samplscript
+     # when: 
+     # sqlplus -s  /nolog <<EOF
+     # connect / as sysdba
+     # @?/apex/apxremov.sql
+     # exit
+     # EOF
+     
+     # ansible-playbook release.yml --extra-vars "version=1.23.45 other_variable=foo"
