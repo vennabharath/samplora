@@ -1,0 +1,210 @@
+Copy multiple files with Ansible
+130
+30
+How can I copy more than a single file into remote nodes by Ansible in a task?
+
+I've tried to duplicate the copy module line in my task to define files but it only copies the first file.
+
+You can use the with_fileglob loop for this:
+
+- copy:
+    src: "{{ item }}"
+    dest: /etc/fooapp/
+    owner: root
+    mode: 600
+  with_fileglob:
+    - /playbooks/files/fooapp/*
+135
+- name: Your copy task
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'containerizers', dest: '/etc/mesos/containerizers' }
+    - { src: 'another_file', dest: '/etc/somewhere' }
+    - { src: 'dynamic', dest: '{{ var_path }}' }
+  # more files here
+9,3793
+3 gold badges
+29
+29 silver badges
+59
+59 bronze badges
+28
+Since Ansible 2.5 the with_* constructs are not recommended, and loop syntax should be used. A simple practical example:
+
+- name: Copy CA files
+  copy:
+    src: '{{item}}'
+    dest: '/etc/pki/ca-trust/source/anchors'
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - symantec-private.crt
+    - verisignclass3g2.crt
+
+3,6031
+1 gold badge
+14
+14 silver badges
+18
+18 bronze badges
+You can use with_together for this purpose:
+
+- name: Copy multiple files to multiple directories
+  copy: src={{ item.0 }} dest={{ item.1 }}
+  with_together:
+    - [ 'file1', 'file2', 'file3' ]
+    - [ '/dir1/', '/dir2/', '/dir3/' ]
+14
+If you need more than one location, you need more than one task. One copy task can copy only from one location (including multiple files) to another one on the node.
+
+- copy: src=/file1 dest=/destination/file1
+- copy: src=/file2 dest=/destination/file2
+
+# copy each file over that matches the given pattern
+- copy: src={{ item }} dest=/destination/
+  with_fileglob:
+    - /files/*
+10
+- hosts: lnx
+  tasks:
+    - find: paths="/appl/scripts/inq" recurse=yes patterns="inq.Linux*"
+      register: file_to_copy
+    - copy: src={{ item.path }} dest=/usr/local/sbin/
+      owner: root
+      mode: 0775
+      with_items: "{{ files_to_copy.files }}"
+4314
+4 silver badges
+6
+6 bronze badges
+6
+- name: find inq.Linux*
+  find:  paths="/appl/scripts/inq" recurse=yes patterns="inq.Linux*"
+  register: find_files
+
+
+- name: set fact
+  set_fact:
+    all_files:
+      - "{{ find_files.files | map(attribute='path') | list }}"
+  when: find_files > 0
+
+
+- name: copy files
+  copy:
+    src: "{{ item }}"
+    dest: /destination/
+  with_items: "{{ all_files }}"
+  when: find_files > 0
+Or you can use with_items:
+
+- copy:
+    src: "{{ item }}"
+    dest: /etc/fooapp/
+    owner: root
+    mode: 600
+  with_items:
+    - dest_dir
+You can loop through variable with list of directories:
+
+- name: Copy files from several directories
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/fooapp/"
+    owner: root
+    mode: "0600"
+  loop: "{{ files }}"
+  vars:
+    files:
+      - "dir1/"
+      - "dir2/"
+Use the following source code for copy multiple files on your client machine.
+
+ - name: Copy data to the client machine
+   hosts: hostname
+   become_method: sudo
+   become_user: root
+   become: true
+   tasks: 
+     # Copy twice as sometimes files get skipped (mostly only one file skipped from a folder if the folder does not exist)
+     - name: Copy UFO-Server 
+       copy:
+         src: "source files path"
+         dest: "destination file path"
+         owner: root
+         group: root
+         mode: 0644
+         backup: yes
+       ignore_errors: true
+Note:
+
+If you are passing multiple paths by using variable then
+
+src: "/root/{{ item }}"
+
+If you are passing path by using a variable for different items then
+
+src: "/root/{{ item.source_path }}"
+
+1
+copy module is a wrong tool for copying many files and/or directory structure, use synchronize module instead which uses rsync as backend. Mind you, it requires rsync installed on both controller and target host. It's really powerful, check ansible documentation.
+
+Example - copy files from build directory (with subdirectories) of controller to /var/www/html directory on target host:
+
+synchronize:
+  src: ./my-static-web-page/build/
+  dest: /var/www/html
+  rsync_opts:
+    - "--chmod=D2755,F644" # copy from windows - force permissions
+Here is a generic solution for copying files:
+
+   ...
+    - name: Find files you want to move
+      ansible.builtin.find:
+        paths: /path/to/files/
+        file_type: file
+        excludes: "*.txt" # Whatever pattern you want to exclude
+      register: files_output
+
+    - name: Copy the files
+      ansible.builtin.copy:
+        src: "{{ item.path }}"
+        dest: /destination/directory/
+      loop: "{{ files_output.files }}"
+   ...
+This is more powerful than using with_fileglob as you can match using regexes. Here is this play in action:
+
+$ ls /path/to/files
+demo.yaml  test.sh  ignore.txt
+
+$ ls /destination/directory
+file.h
+
+$ ansible-playbook playbook.yaml
+...[some output]...
+
+$ ls /destination/directory
+file.h demo.yaml test.sh
+As you can see from the above example, ignore.txt was not copied over to the destination directory because of the excludes regex in the playbook. Ignoring files like this is not possible as simply using with_fileglob.
+
+Additionally, you can move files from multiple directories with relative ease:
+
+   ...
+    - name: Find files you want to move
+      ansible.builtin.find:
+        paths: /path/to/files/
+        # ... the rest of the task
+      register: list1
+
+    - name: Find more files you want to move
+      ansible.builtin.find:
+        paths: /different/path/
+        # ... the rest of the task
+      register: list2
+
+    - name: Copy the files
+      ansible.builtin.copy:
+        src: "{{ item.path }}"
+        dest: /destination/directory/
+
