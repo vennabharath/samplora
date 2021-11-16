@@ -1,0 +1,12 @@
+[user]
+        email = <username>@gmail.com
+[remote "origin"]
+        url = https://github.com/<username>/<repo_name>.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[credential]
+        username = <user_name>
+[credential "user"]
+        email = <username>@gmail.com
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
