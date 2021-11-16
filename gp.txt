@@ -1,0 +1,2 @@
+git remote set-url origin https://user:<MYTOKEN>@github.com/user/userp.git
+
