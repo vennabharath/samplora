@@ -1,0 +1,46 @@
+Customize Bash Prompt
+1. User Specific Configuration
+There are different approaches to customize the Bash Prompt. For user specific configuration edit ~/.bashrc and add your customization below the line '# User specific aliases and functions'
+
+This example:
+
+
+PS1='\u@\H:\w\$ ' 
+will result in the following prompt:
+
+
+user@hostname.domain.tld:/working/directory$
+If you prefer a colorful prompt, try:
+
+
+PS1='\[\033[02;32m\]\u@\H:\[\033[02;34m\]\w\$\[\033[00m\] '
+A detailed description of color codes can be found here.
+
+You can also display the hostname only, instead of the complete url by using 'h' instead of 'H' in the PS1 definition.
+
+2. System-wide Configuration
+System-wide configuration is done in /etc/bashrc. Comment out the default settings and add your customization below:
+
+
+# [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\h \w]\\$ "
+PS1='\u@\H:\w\$ ' 
+3. XTerm
+To set the XTerm window title, create a file called
+
+
+/etc/sysconfig/bash-prompt-xterm
+with the following content:
+
+
+echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD/#$HOME/~}\007"
+and make it executable using:
+
+
+chmod +x /etc/sysconfig/bash-prompt-xterm
+If you only want to display the hostname instead of the complete url you can change:
+
+${HOSTNAME}
+
+to
+
+${HOSTNAME%%.*}
