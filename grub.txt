@@ -1,0 +1,36 @@
+If you have repaired your system from a backup tape (by dump or tar for example), or have installed another OS such as one from Redmond that may have overwritten the master boot record (MBR), you will need to repair the bootstrap area.
+
+1. Re-install bootstrap code (GRUB)
+Please perform the following steps:
+
+Boot from CentOS installation disc (for example, CD #1 or DVD).
+For CentOS-4 or CentOS-5 type "linux rescue" at the "boot:" prompt. For CentOS-6 pick "Rescue installed system" from the boot menu.
+
+Mount all filesystems in read-write mode.
+Change root to real root ('/') on your hard disk:
+
+# chroot /mnt/sysimage
+Re-install bootstrap code (GRUB).
+If you wish to re-install GRUB to the MBR on a SCSI or SATA disk (/dev/sda):
+
+# grub-install /dev/sda
+If you wish to re-install GRUB to the PBR of Partition #2 on a SCSI or SATA disk (/dev/sda2):
+
+# grub-install /dev/sda2
+If you wish to re-install GRUB to the MBR on an IDE disk (/dev/hda):
+
+# grub-install /dev/hda
+If you wish to re-install GRUB to the MBR on a HP Smart Array disk (/dev/c0d0):
+
+# grub-install /dev/cciss/c0d0
+2. Alternative Recovery from GRUB Issues - Super Grub Disk
+Super Grub Disk has a variety of open source boot recovery tools. For CentOS legacy GRUB SuperGRUB works well.
+
+3. More GRUB information and articles
+For complete information on GRUB type info grub in a shell window.
+
+GRUB Installation for CentOS 5 and 6
+
+Troubleshooting GRUB Issues
+
+Information on Grub from RHEL's Installation Guide
