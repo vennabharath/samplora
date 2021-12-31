@@ -1,0 +1,78 @@
+ accessing Windows files as if they are local and essentially all Linux commands can be used. Mounting Windows (or other samba) shares is done through the cifs virtual file system client (cifs vfs) implemented in kernel and a mount helper mount.cifs which is part of the samba suite.
+
+The following names are used in our examples.
+
+remote Windows machine winbox
+share name on winbox: getme
+username: sushi
+password: yummy
+
+Word of warning: the default behaviour for mount.cifs is leaving the mounted share unsecured (http://bugs.centos.org/view.php?id=4537). If you are managing a multiuser system, consider setting the dir_mode and file_mode options to your mount point.
+
+1. Required packages
+Make sure that the following packages are installed:
+
+[root@host]# yum install samba-client samba-common cifs-utils
+which will also pull in any needed dependencies. Note that cifs-utils is for CentOS-6 (or later) only.
+
+2. Basic method
+Create a local mount point. For example:
+
+
+[root@host]# mkdir /mnt/win
+Edit the /etc/fstab file and add a line like:
+
+
+\\winbox\getme /mnt/win cifs user,uid=500,rw,suid,username=sushi,password=yummy 0 0
+The Windows share gets mounted on boot. Add the noauto option if you wish to manually mount it by the command mount /mnt/win . In this example, local user (uid=500) will become the owner of the mounted files. Use of the uid flag is optional. However, it may be required for certain applications (for example, Acrobat) to work because they are picky about the permissions.
+
+You may want to use different options for cifs. For example, nocase allows case insensitive path name matching. Do a man mount.cifs to see more options.
+
+[Note: if you used smbfs in earlier versions of CentOS, you must replace it with cifs in CentOS 5 because smbfs has been deprecated.]
+
+3. Better Method
+The above method has a little problem. Username and password are visible to everyone. We can avoid this by using a credentials file.
+
+
+\\winbox\getme /mnt/win cifs user,uid=500,rw,noauto,suid,credentials=/root/secret.txt 0 0
+Note: per jbroome, in IRC, a working example looks like this
+
+\\jellyfish\DBRefreshLogs\beta2 /media/DBRefreshLogs/beta2 cifs    credentials=/root/secret.txt,_netdev,uid=oracle,gid=dba 0 0
+Where the /root/secret.txt file looks like this:
+
+username=sushi
+password=yummy
+This file can be placed anywhere. Encrypted passwords cannot be used. Make sure it is not readable by others. Note also that no spaces are allowed.
+
+(Note: username can have a form of username=<domain>/<hostname>)
+
+4. Even-better method
+Once mounted through /etc/fstab the remote share remains mounted unless you umount it. This might cause problems if the remote share becomes unavailable, resulting in stale mounts. For example, the Windows machine you are connecting to might crash (surprise!) or the network might go down.
+
+Automount comes in handy (if you don't already have autofs, install it by yum install autofs). Here is what you need to do. First create a mount point
+
+
+[root@host]# mkdir /mymount
+[Note: You can use any directory; make sure that directory exists]
+
+To the /etc/auto.master file add a line like:
+
+
+/mymount /etc/auto.mymount
+Then edit the /etc/auto.mymount file you just entered:
+
+
+winbox  -fstype=cifs,rw,noperm,user=sushi,pass=yummy ://winbox/getme
+Or by using the same credentials file as above:
+
+
+winbox  -fstype=cifs,rw,noperm,credentials=/root/secret.txt ://winbox/getme
+Note that /etc/auto.mymount can be made world-unreadable, so, use of the credentials file is not as important as in the previous method.
+
+[More note: If you cannot connect by the machine name but can connect by its IP address, then add wins on the hosts line of /etc/nsswitch.conf .]
+
+When all is ready, run /sbin/service autofs restart as root.
+
+Now try accessing the share by ls /mymount/winbox or by  cd /mymount/winbox . It is dynamically loaded upon access. After some inactivity (default 60 seconds), the share will be unmounted.
+
+[Note: Upon automounting, you may see an error mount_cifs.so: cannot open shared object file in /var/log/messages. This is harmless and can be safely ignored.]
