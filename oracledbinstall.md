@@ -387,11 +387,12 @@ You can [download Oracle Database 19c]() from Oracle website. You need to crea
 We have downloaded **Oracle Database 19c (19.3)** for Linux and transferred it into **home** directory of **oracle** user.
 
 Unzip the downloaded zip file to **ORACLE\_HOME** directory.
-
+``` shell
 [oracle@oracle-db-19c ~]$ unzip LINUX.X64\_193000\_db\_home.zip -d $ORACLE\_HOME
-
+```
 **Oracle Database 19c** installer have problems detecting **CentOS 8** operating system, however, we can workaround it, by setting an environment variable before starting installation.
 
+``` shell
 [oracle@oracle-db-19c ~]$ export CV\_ASSUME\_DISTID=RHEL8.0
 
 Go to **ORACLE\_HOME** directory and start installation.
@@ -427,6 +428,9 @@ Go to **ORACLE\_HOME** directory and start installation.
 \> SECURITY\_UPDATES\_VIA\_MYORACLESUPPORT=false \
 
 \> DECLINE\_SECURITY\_UPDATES=true
+
+
+```
 
 Launching Oracle Database Setup Wizard...
 
