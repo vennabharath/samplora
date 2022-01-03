@@ -74,12 +74,14 @@ In addition, if you have a 256 color GUI terminal (I think most of them are now)
 
 The ANSI sequence to select these, using the number in the bottom left corner, starts 38;5; for the foreground and 48;5; for the background, then the color number, so e.g.:
 
-echo -e "\\033[48;5;95;38;5;214mhello world\\033[0m"
 
+```
+echo -e "\\033[48;5;95;38;5;214mhello world\\033[0m"
+```
 Gives me a light orange on tan (meaning, the color chart is roughly approximated).
 
 You can see the colors in this chart1 as they would appear on your terminal fairly easily:
-
+``` shell
 #!/bin/bash
 
 color=16;
@@ -91,35 +93,36 @@ while [ $color -lt 245 ]; do
 `    `((color++));
 
 done  
+```
 
 The output is self-explanatory.
 
 Some systems set the $TERM variable to xterm-256color if you are on a 256 color terminal via some shell code in /etc/profile. On others, you should be able to configure your terminal to use this. That will let TUI applications know there are 256 colors, and allow you to add something like this to your ~/.bashrc:
-
+``` shell
 if [[ "$TERM" =~ 256color ]]; then
 
 `     `PS1="MyCrazyPrompt..."
 
 fi
-
+```
 Beware that when you use color escape sequences in your prompt, you should enclose them in escaped (\ prefixed) square brackets, like this:
-
+```
 PS1="\[\033[01;32m\]MyPrompt: \[\033[0m\]"
-
+```
 Notice the ['s interior to the color sequence are not escaped, but the enclosing ones are. The purpose of the latter is to indicate to the shell that the enclosed sequence does not count toward the character length of the prompt. If that count is wrong, weird things will happen when you scroll back through the history, e.g., if it is too long, the excess length of the last scrolled string will appear attached to your prompt and you won't be able to backspace into it (it's ignored the same way the prompt is).
 
 Also note that if you want to include the output of a command run every time the prompt is used (as opposed to just once when the prompt is set), you should set it as a literal string with single quotes, e.g.:
-
+```
 PS1='\[\033[01;32m\]$(date): \[\033[0m\]'
-
+```
 Although this is not a great example if you are happy with using bash's special \d or \D{format} prompt escapes -- which are not the topic of the question but can be found in man bash under PROMPTING. There are various other useful escapes such as \w for current directory, \u for current user, etc.
 
 \1. The main portion of this chart, colors 16 - 231 (notice they are not in numerical order) are a 6 x 6 x 6 RGB color cube. "Color cube" refers to the fact that an RGB color space can be represented using a three dimensional array (with one axis for red, one for green, and one for blue). Each color in the cube here can be represented as coordinates in a 6 x 6 x 6 array, and the index in the chart calculated thusly:
-
+```
 `    `16 + R \* 36 + G \* 6 + B
-
+```
 The first color in the cube, at index 16 in the chart, is black (RGB 0, 0, 0). You could use this formula in shell script:
-
+``` shell
 #!/bin/sh                                                         
 
 function RGBcolor {                                               
@@ -265,7 +268,7 @@ function colorgrid( )
 `    `done
 
 }
-
+```
 You can throw that in a .bashrc / .bash\_profile / .bash\_aliases or save it as a script and run it that way. You can use the colors to change color like I did with my name below.
 
 colorgrid() outputs:
@@ -273,7 +276,7 @@ colorgrid() outputs:
 ![Output of colorgrid()](Aspose.Words.5f599291-4296-417a-ba28-796356657382.002.png)
 
 I changed my name in my .bash\_profile by doing this:
-
+``` shell
 if [ "$USER" = "plasmarob" ]; then
 
 `    `p="\[\033[01;38;5;52m\]p"
@@ -305,13 +308,14 @@ fi
 ...
 
 export PS1="$\_\_user\_and\_host $\_\_cur\_location $\_\_git\_branch\_color$\_\_git\_branch$\_\_prompt\_tail$\_\_last\_color "
-
+```
 Note that the 01 prefix in a string like \[\033[01;38;5;214m\]a sets it to be bold.
 
 12
 
 Another script like the one posted by TAFKA 'goldilocks' for displaying colors which is maybe a little more practical for reference purposes:
 
+``` shell
 #!/bin/bash
 
 useage() {
@@ -742,3 +746,4 @@ cat "$0" 1>&2;
 
 `    `unset Colors x0 Color;
 
+```
