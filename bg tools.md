@@ -1,5 +1,3 @@
-window.dataLayer = window.dataLayer || \[\]; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-102240749-1');      Hacks | Markdown Guide               
-
  [![Markdown Guide](https://d33wubrfki0l68.cloudfront.net/f1f475a6fda1c2c4be4cac04033db5c3293032b4/513a4/assets/images/markdown-mark-white.svg) Markdown Guide](/) 
 
 [Get Started](/getting-started/) [Cheat Sheet](/cheat-sheet/) [Basic Syntax](/basic-syntax/) [Extended Syntax](/extended-syntax/) [Hacks](/hacks/) [Tools](/tools/) [Book](/book/)
