@@ -28,8 +28,9 @@ Some of these words will be underlined.
 
 Indent (Tab)
 ------------
-
+<font color=blue>
 Tabs and whitespace have a special meaning in Markdown. You can use trailing whitespace to create [line breaks](/basic-syntax/#line-breaks), and you can use tabs to create [code blocks](/basic-syntax/#code-blocks). But what if you need to indent a paragraph in a paper the old-fashioned way, using the tab key? Markdown doesn’t provide an easy way of doing that.
+</font>
 
 Your best bet might be to use a Markdown editor that supports indentation. This is common in applications that are more oriented towards desktop publishing. For example, [iA Writer](/tools/ia-writer/) allows you to customize indentation settings for the editor in the application preferences. It also provides template customization options so that you can make the rendered document look the way you expect it to, indentation and all.
 
@@ -1479,4 +1480,3 @@ Stay updated
     *   [HTML Best Practices](#html-best-practices)
 
 
-    
