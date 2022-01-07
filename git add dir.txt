@@ -1,0 +1,52 @@
+Also struggled, but got it right typing
+
+git add -f ./JS/*
+
+where JS was my folder name which contain sub folders and files
+
+it can add ignored files and do a mess in repository. – 
+
+git add ./JS is the correct usage. It will add all the files in the directory and all subdirectories still caring about ignored files. – 
+
+I can't say for sure if this is the case, but what appeared to be a problem for me was having .gitignore files in some of the subdirectories. Again, I can't guarantee this, but everything worked after these were deleted.
+
+
+Most likely .gitignore files are at play. Note that .gitignore files can appear not only at the root level of the repo, but also at any sub level. You might try this from the root level to find them:
+
+find . -name ".gitignore"
+
+and then examine the results to see which might be preventing your subdirs from being added.
+
+There also might be submodules involved. Check the offending directories for ".gitmodules" files.
+
+I saw this problem before, when the (sub)folder I was trying to add had its name begin with "_Something_"
+
+I removed the underscores and it worked. Check to see if your folder has characters which may be causing problems.
+
+
+If for someone git add . is not working (as in my case as well), use git add ./* which included all files in all subdirectories. My directory structure is:
+
+MainDirectory
+|_.git
+|_README
+|_folder1
+|   |_file1
+|   |_file2
+|   |_subfolder1
+|   |    |_file3
+|   |    |_file4
+|   |_subfolder2
+|        |_file5
+|        |_file6
+|_folder2 
+|   |_file1
+|   |_file2
+|   |_subfolder1
+|   |    |_file3
+|   |    |_file4
+|   |_subfolder2
+|        |_file5
+|        |_file6
+|_otherfiles
+
+doing git add ./* included everything inside one level depth or more while git add . was adding only files at current level.
