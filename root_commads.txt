@@ -1,0 +1,162 @@
+    1  yum install git chromium-browser tmux -y
+    2  pkill -9 3175
+    3  yum install git chromium-browser tmux -y
+    4  pgrep 3175
+    5  pkill - 15 3175
+    6  pkill --help
+    7  kill -15 3175
+    8  yum install git chromium-browser tmux -y
+    9  vi /etc/bash
+   10  vi /etc/bashrc
+   11  source /etc/bashrc
+   12  exit
+   13  vi /etc/bashrc
+   14  source /etc/bashrc
+   15  vi /etc/bashrc
+   16  source /etc/bashrc
+   17  vi /etc/bashrc
+   18  source /etc/bashrc
+   19  vi /etc/bashrc
+   20  source /etc/bashrc
+   21  clear
+   22  hostnamectl sethostname oracleserver.test.com
+   23  hostnamectl set-hostname oracle.testserver.com
+   24  hostname
+   25  vi /etc/hosts
+   26  ifconfig
+   27  vi /etc/hostname 
+   28  vi /etc/hostnames
+   29  vi /etc/hosts
+   30  source /etc/hosts
+   31  shutdown now
+   32  /bin/bash /ora01/app/oraInventory/orainstRoot.sh
+   33  /bin/bash /ora01/app/oracle/product/19.3.0.0/db_1/root.sh
+   34  sqlplus / as sysdba
+   35  su - oracle
+   36  subl /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   37  exit
+   38  yum install curl 
+   39  kill -15 2904
+   40  yum install curl 
+   41  yum install git  
+   42  gio /home/sampl/
+   43  gio open /home/sampl/
+   44  vi /etc/hosts
+   45  yum update
+   46  vi /etc/sysctl.conf
+   47  yum install Downloads/sublime-text-3211-1.x86_64.rpm 
+   48  subl smpl.sh 
+   49  /sbin/sysctl -p
+   50  subl /etc/security/limits.conf 
+   51  /bin/bash smpl7.sh 
+   52  cdob
+   53  subl smpl7.sh 
+   54  echo $ORACLE_BASE
+   55  export TMP=/tmp && export ORACLE_HOSTNAME=oel7.dbaora.com && export ORACLE_UNQNAME=ORA19C &&  export ORACLE_BASE=/ora01/app/oracle && export ORACLE_HOME=$ORACLE_BASE/product/19.3.0.0/db_1 && export ORACLE_SID=ORA19C
+   56  echo $ORACLE_BASE
+   57  PATH=/usr/sbin:$PATH:$ORACLE_HOME/bin
+   58  export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib;
+   59  export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib;
+   60  alias cdob='cd $ORACLE_BASE' &&  alias cdoh='cd $ORACLE_HOME' && alias tns='cd $ORACLE_HOME/network/admin' &&  alias envo='env | grep ORACLE'
+   61  cdob
+   62  cd /home/sampl/
+   63  umask 022
+   64  vi smplscript.sh
+   65  /bin/bash smplscript.sh 
+   66  su - oracle
+   67  mv /home/sampl/Downloads/LINUX.X64_193000_db_home.zip /ora01/app/oracle/product/19.3.0.0/db_1/
+   68  unzip LINUX.X64_193000_db_home.zip
+   69  ls -al /ora01/app/oracle/product/19.3.0.0/db_1/
+   70  su - oracle
+   71  exit
+   72  subl /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   73  clear
+   74  vi /etc/hosts
+   75  clear
+   76  exit
+   77  mkdir -p /usr/lib/gedit/plugins
+   78  exit
+   79  yum install chromium-browser
+   80  vi /etc/yum.repos.d/google-chrome.repo
+   81  yum install google-chrome-stable
+   82  chrome
+   83  google-chrome
+   84  exit
+   85  yum localinstall atom.x86_64\ \(3\).rpm 
+   86  yum install atom
+   87  curl https://github.com/atom/atom/releases/download/v1.42.0/atom.x86_64.rpm
+   88  yum localinstall atom.x86_64.rpm 
+   89  clear
+   90  exit
+   91  shutdown now
+   92  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   93  visudo
+   94  exit
+   95  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   96  exit
+   97  chmod 777 runInstaller 
+   98  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   99  exit
+  100  chmod 755 /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+  101  exit
+  102  chmod 755 db_1/
+  103  exit
+  104  chmod 777 /ora01/app/oracle/product/19.3.0.0/db_1/bin/commonSetup.sh
+  105  exit
+  106  cd ..
+  107  chmod oracle u+w db_1/
+  108  chown oracle:db_1
+  109  chown oracle:db_1/
+  110  ls
+  111  chown oracle:db_1
+  112  chown oracle: db_1
+  113  chmod oracle u+w db_1
+  114  chmod u+w db_1
+  115  exit
+  116  chmod u+rxw db_1
+  117  cd ..
+  118  chmod u+rxw db_1
+  119  exit
+  120  chown oracle: /orao1
+  121  chown oracle: /ora01
+  122  chmod u+rxw /ora01
+  123  exit
+  124  chown oracle: /ora01/app/
+  125  chown oracle: /ora01/app/oracle/
+  126  chown oracle: /ora01/app/oracle/product/
+  127  chown oracle: /ora01/app/oracle/product/19.3.0.0/
+  128  chmod u+rxw /ora01/app/
+  129  chmod u+rxw /ora01/app/oracle/
+  130  chmod u+rxw /ora01/app/oracle/product/
+  131  chmod u+rxw /ora01/app/oracle/product/19.3.0.0/
+  132  chmod 777 /ora01/
+  133  chmod 777 /ora01/app/
+  134  chmod 777 /ora01/app/oracle/
+  135  chmod 777 /ora01/app/oracle/product/
+  136  chmod 777 /ora01/app/oracle/product/19.3.0.0/
+  137  chmod 777 /ora01/app/oracle/product/19.3.0.0/db_1/
+  138  exit
+  139  chown oracle:oinstall oraInst.loc
+  140  chown oracle:oinstall /etc/oraInst.loc 
+  141  chmod 664 /etc/oraInst.loc 
+  142  exit
+  143  id oracle
+  144  chmod ugo+rwx *
+  145  cd ..
+  146  chmod ugo+rwx *
+  147  cd db_1/
+  148  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+  149  exit
+  150  clear
+  151  yum install ansible 
+  152  clear
+  153  exit
+  154  chmod 755 /etc/oraInst.loc 
+  155  shutdown now
+  156  chmod 755 /etc/oraInst.loc 
+  157  shutdown now
+  158  vi /etc/yum.repos.d/google-chrome.repo
+  159  ifconfig
+  160  exit
+  161  chown -R oracle:oinstall /ora01/app/oracle/product/19.3.0.0/db_1/
+

@@ -1,0 +1,94 @@
+    1  exit
+    2  sqlplus / as sysdba
+    3  less -10 /ora01/app/oraInventory/logs/InstallActions2022-01-04_08-26-54AM
+    4  cd /ora01/app/oracle/product/19.3.0.0/db_1
+    5  ./runInstaller -silent \ -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+    6  subl /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+    7  exit
+    8  unzip
+    9  cd /ora01/app/oracle/product/19.3.0.0/db_1
+   10  unzip LINUX.X64_193000_db_home.zip 
+   11  cd /ora01/app/oracle/product/19.3.0.0/db_1/install/response
+   12  ls
+   13  cp db_install.rsp db_install.rsp.7
+   14  subl db_install.rsp
+   15  vi db_install.rsp
+   16  cd /ora01/app/oracle/product/19.3.0.0/db_1
+   17  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   18  vi smpl.log
+   19  less - 7 /tmp/InstallActions2022-01-04_08-26-54AM/installActions2022-01-04_08-26-54AM.log
+   20  less -7 /tmp/InstallActions2022-01-04_08-26-54AM/installActions2022-01-04_08-26-54AM.log
+   21  su
+   22  exit
+   23  subl /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   24  shutdown now
+   25  su 
+   26  cd /ora01/app/oracle/product/19.3.0.0/db_1/install/response
+   27  ls
+   28  vi db_install.rsp
+   29  subl db_install.rsp
+   30  cd /ora01/app/oracle/product/19.3.0.0/db_1
+   31  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   32  sudo ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   33  su
+   34  sudo ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   35  su
+   36  ./runInstaller -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   37  ls -al
+   38  clear
+   39  cd ~
+   40  vi .bash_profile 
+   41  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   42  cd /ora01/app/oracle/product/19.3.0.0/db_1/install/
+   43  ls
+   44  cd ..
+   45  ls
+   46  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   47  su
+   48  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   49  cd ..
+   50  chmod db_1/
+   51  chmod 0755 db_1/
+   52  su
+   53  cd db_1/
+   54  cd  ..
+   55  d db_1/
+   56  cd db_1/
+   57  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   58  chmod 777 /ora01/app/oracle/product/19.3.0.0/db_1/bin/commonSetup.sh
+   59  su
+   60  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   61  su
+   62  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   63  su
+   64  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   65  su
+   66  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   67  su
+   68  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   69  echo $ORACLE_HOME
+   70  chown oracle: $ORACLE_HOME
+   71  chmod ugo+rwx $ORACLE_HOME
+   72  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   73  SU
+   74  su
+   75  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   76  su
+   77  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   78  cd ..
+   79  chmod oracle+rwx *
+   80  chmod u+x db_1/
+   81  cd db_1/
+   82  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   83  grep oinstall /etc/group
+   84  more /etc/oraInst.loc
+   85  chown -R oracle:oinstall /u01/app/oraInventory
+   86  clear
+   87  exit
+   88  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   89  cd /ora01/app/oracle/product/19.3.0.0/db_1/
+   90  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+   91  chown -R oracle:oinstall /ora01/app/oracle/product/19.3.0.0/db_1/
+   92  su
+   93  ./runInstaller -ignorePrereq -waitforcompletion -silent -responseFile /ora01/app/oracle/product/19.3.0.0/db_1/install/response/db_install.rsp
+  
