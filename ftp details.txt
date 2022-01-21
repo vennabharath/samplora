@@ -1,0 +1,20 @@
+
+Bharath Venna <bharathvenna.venna@gmail.com>
+Sat, Aug 7, 2021, 6:28 PM
+to me, bharathvenna.venna, bharathvenna.venna, vb2509, vbharathshankar2509
+
+aws-learn.000webhostapp.com ftp details
+
+files.000webhost.com
+
+Port:
+
+21
+
+Username:
+
+aws-learn
+
+Password:
+
+same as your website password

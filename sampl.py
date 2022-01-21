@@ -1,0 +1,1 @@
+print ('Praise the Lord')
